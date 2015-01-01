@@ -149,7 +149,6 @@ function enemigo(x, y, ancho, alto, canvas, tipo) {
         /*Obtenemos el contexto 
         para dibujar dentro del canvas*/
         this.ctx = this.canvas.getContext('2d');
-        console.info('tipo:'+this.tipo);
         imgEnemigo.src = 'media/' + this.tipo + '.png';
         /*Se especifica la posición(x,y), ancho y alto*/
         this.ctx.drawImage(imgEnemigo, this.x, this.y, this.ancho, this.alto);
