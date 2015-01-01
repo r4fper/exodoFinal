@@ -11,6 +11,7 @@ var protagonista;
 var oImagen = new Imagen();
 //Coordenada inicial de pixeles en X el objeto a mover
 var pixeles = 200;
+//Indica que el juego está pausado o no
 var PAUSA = true;
 var intervaloAtaque=0;
 
