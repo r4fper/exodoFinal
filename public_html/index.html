@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="es">
+    <head>
+        <title>Éxodo - Hacia la tierra prometida</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/estilos.css" type="text/css" rel="stylesheet"/>
+         <script src="js/visionArt.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
+       
+    </head>
+    <body onload="inicializar();"> 
+        <div id="principal">
+            <div id="contendorJuego">
+                <div id="izq" class="controles">izquierda</div>
+                <div id="derecha" class="controles">derecha</div>
+                <div id="titulo" onclick="iniciarAtaque();">Exodo</div>
+                <div id="zonaJuego">
+                    zona de juego        
+                </div>
+                <video id="webCam" style="visibility: hidden;">
+                    Navegador incompatible para desplegar video.
+                </video>
+                <canvas id="foto" >
+                    canvas
+                </canvas>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+/* 
+    Created on : 13/12/2014, 10:09:45 AM
+    Author     : Rafael Pérez Meriño
+*/
+
+/*Rotar imagen horizontalmente*/
+#foto, #webCam{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: "FlipH";
+    filter: FlipH;
+}
+
+#foto {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+body{
+    width: 100%;
+}
+.controles{
+    width: 100px;
+    height: 150px;
+}
+
+#principal{
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+}
+
+#derecha {
+    position: absolute;
+    left: 700px;
+    top: 0px;
+}
+
+#izq {
+    float: left;
+}
+
+#titulo {
+    position: absolute;
+    width: 600px;
+    height: 70px;
+    left: 100px;
+}
+
+#zonaJuego {
+    position: absolute;
+    width: 600px;
+    height: 530px;
+    left: 100px;
+    top: 70px;
+}
+
+#contendorJuego {
+    position: absolute;   
+}
