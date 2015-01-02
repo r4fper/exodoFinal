@@ -4,7 +4,7 @@
 */
 
 /*Rotar imagen horizontalmente*/
-#foto, #webCam{
+#foto, #webCam, #zonaJuego{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
@@ -61,4 +61,6 @@ body{
 
 #contendorJuego {
     position: absolute;   
+    width: 600px;
+    height: 600px;
 }

@@ -26,13 +26,25 @@ function CamaraVideo(webcam) {
     };
 }
 
+function juego(canvas) {
+    /*-----------Atributos --------*/
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext('2d');
+    this.pausa = true;
+    /*------------Métodos----------*/
+    this.play = function () {
+        //Si presiona la tecla play/pausar
+        this.pausa = this.pausa === true ? false : true;
+    };
+}
+
 /*------------Clase Imagen ---------------------*/
 /*Recibe como parámetros
  ancho: Ancho de la imagen
  alto: Alto de la imagen
  camara: Capa donde se está mostrando la Webcam.
  foto: Foto que se toma de la Webcam 
-       (sobre la foto se manipulan los pixeles de la imagen)
+ (sobre la foto se manipulan los pixeles de la imagen)
  */
 function Imagen(ancho, alto, camara, foto) {
     //-----------Atributos -------
@@ -56,7 +68,7 @@ function Imagen(ancho, alto, camara, foto) {
         this.img.drawImage(this.camara, 0, 0, this.ancho, this.alto);
     };
     /*Analiza la imagen para determinar si fue 'tocada'
-      en la parte superior izquierda o derecha*/
+     en la parte superior izquierda o derecha*/
     this.analizar = function () {
         //creamos un vector con los pixeles de la imagen.
         /*Parámetros:
@@ -65,7 +77,7 @@ function Imagen(ancho, alto, camara, foto) {
          * ancho=ancho de la imagen desplegada por la webcam(800px)
          * alto= alto de la imagen desplegada por la webcam(600px)*/
         vImagen = this.img.getImageData(0, 0, this.ancho, this.alto);
-       
+
         //Monitorea si la parte superior derecha
         // fue señalada con un objeto rojo
         if (marcaDerecha.verificar(vImagen))
@@ -73,13 +85,13 @@ function Imagen(ancho, alto, camara, foto) {
              * 1: Derecha
              * 2: Izquierda*/
             return 1;
-            //marcaDerecha.mover(2);
+        //marcaDerecha.mover(2);
         //Monitorea si la parte superior izquierda
         // fue señalada con un objeto rojo
         if (marcaIzquierda.verificar(vImagen))
             /*Si detecta que fue 'tocada' mueve el objeto*/
             return 2;
-            //marcaIzquierda.mover(1);
+        //marcaIzquierda.mover(1);
     };
 }
 
@@ -96,15 +108,15 @@ function Marca(ancho, alto, x, y) {
         /*Se calcula cual es pixel donde comienza la Marca.
          * parte superior Izquierda        
          pxIncial  -->  .......
-                        .......
-                        .......
+         .......
+         .......
          
          *se multiplica el Ancho por la coordenada en Y + coordenada en X
          *todo eso multiplicado por 4, eso no da el pixel donde inicial la Marca*/
-        var pixelInicial = 4*((this.anchoMarca * this.marcaY) + this.marcaX);
+        var pixelInicial = 4 * ((this.anchoMarca * this.marcaY) + this.marcaX);
         //Ancho de la Imagen en pixeles (4 puntos por cada pixel(RGBA))
         var anchoImgEnPixeles = oImagen.ancho * 4;
-         //Ancho de la Marca en pixeles (4 puntos por cada pixel(RGBA))
+        //Ancho de la Marca en pixeles (4 puntos por cada pixel(RGBA))
         var anchoMarcaEnPixeles = this.anchoMarca * 4;
         var pos = pixelInicial;
         for (i = 0; i < this.altoMarca; i++) {
@@ -125,19 +137,19 @@ function Marca(ancho, alto, x, y) {
     //Ubicar la marca en la posición especificada.
     this.ubicar = function () {
     };
-    
+
 }
 /*------------Clase enemigo--------------
-Obstáculos y enemigos que debe sortear el protagonista
-*/
-function enemigo(x, y, ancho, alto, canvas, tipo) {
+ Obstáculos y enemigos que debe sortear el protagonista
+ */
+function enemigo(x, y, ancho, alto, contexto, tipo) {
     /*-----------Atributos---------*/
     this.x = x;
     this.y = y;
     this.ancho = ancho;
     this.alto = alto;
-    this.canvas = canvas;
-    this.ctx = null;
+//    this.canvas = canvas;
+    this.ctx = contexto;
     this.tipo = tipo;
     this.imgEnemigo = new Image();
     /*------------Métodos----------*/
@@ -147,42 +159,44 @@ function enemigo(x, y, ancho, alto, canvas, tipo) {
      * espejo(derecha es izquierda) al rotar (derecha coincide con la derecha)*/
     this.dibujar = function () {
         /*Obtenemos el contexto 
-        para dibujar dentro del canvas*/
-        this.ctx = this.canvas.getContext('2d');
+         para dibujar dentro del canvas*/
+        //this.ctx = this.canvas.getContext('2d');
         this.imgEnemigo.src = 'media/' + this.tipo + '.png';
         /*Se especifica la posición(x,y), ancho y alto*/
         this.ctx.drawImage(this.imgEnemigo, this.x, this.y, this.ancho, this.alto);
     };
     /*Instrucciones para mover a los enemigos*/
     this.mover = function () {
-        this.y-=2;
+        this.y -= 2;
+        this.x -= 0.2;
+        //Sensación que se aleja el enemigo
+        this.ancho -= 0.1;
+        this.alto -= 0.1;
         this.dibujar();
     };
     /*Instrucciones para destruir los enemigos cuando colisionan
-    o desaparecen del área visible del juego (y<0)*/
+     o desaparecen del área visible del juego (y<0)*/
     this.destruir = function () {
         //Borra el espacio dibujado por el enemigo en la pantalla
-        this.imgEnemigo=null;
+        this.imgEnemigo = null;
     };
 }
 
 /*------------Clase protagonista--------------
-Protagonista de la historia
-*/
-function protagonista(x, y, ancho, alto, canvas) {
+ Protagonista de la historia
+ */
+function protagonista(x, y, ancho, alto, contexto) {
     /*-----------Atributos---------*/
     this.x = x;
     this.y = y;
     this.ancho = ancho;
     this.alto = alto;
-    this.canvas = canvas;
-    this.ctx = null;
+    this.ctx = contexto;
     /*------------Métodos----------*/
     this.dibujar = function () {
         /*Obtenemos el contexto 
-        para dibujar dentro del canvas*/
-        this.ctx = this.canvas.getContext('2d');
-        this.ctx.fillStyle = '#0000FF'; /*Se rellena de color rojo*/
+         para dibujar dentro del canvas*/
+        this.ctx.fillStyle = '#0000FF'; /*Se rellena de color azul*/
         /*Se especifica la posición(x,y), ancho y alto*/
         this.ctx.fillRect(this.x, this.y, this.ancho, this.alto);
     };
@@ -207,32 +221,32 @@ function protagonista(x, y, ancho, alto, canvas) {
                 this.x += 5;
                 /*Si los pixeles a mover exceden el ancho
                  *  permitido no realiza el movimiento */
-                if (this.x<=650){
+                if (this.x <= (600-this.ancho)) {
                     /*Mueve el objeto +/-50px*/
                     //Borra el espacio dibujado por el protagonista en la pantalla
                     this.ctx.clearRect(this.x, this.y, this.ancho, this.alto);
                     this.ctx.fillRect(this.x, this.y, this.ancho, this.alto);
-                }else{
+                } else {
                     /*Sino le asigna el máximo permitido*/
-                    this.x=650;
+                    this.x = (600-this.ancho);
                 }
                 break;
                 //Mover a la Izquierda 
             case 2:
                 /*Decrementa 50px*/
-                 this.x -= 5;
+                this.x -= 5;
                 /*Si los pixeles a mover son menores a cero
                  * no realiza el movimiento */
-                if (this.x>=100){
+                if (this.x >= 0) {
                     /*Mueve el objeto +/-50px*/
                     //Borra el espacio dibujado por el protagonista en la pantalla
                     this.ctx.clearRect(this.x, this.y, this.ancho, this.alto);
                     this.ctx.fillRect(this.x, this.y, this.ancho, this.alto);
-                }else{
+                } else {
                     /*Sino le asigna el mínimo permitido*/
-                    this.x=100;
+                    this.x = 0;
                 }
-            break;
+                break;
         }
     };
 }
