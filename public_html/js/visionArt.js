@@ -139,23 +139,22 @@ function enemigo(x, y, ancho, alto, canvas, tipo) {
     this.canvas = canvas;
     this.ctx = null;
     this.tipo = tipo;
+    this.imgEnemigo = new Image();
     /*------------Métodos----------*/
     /*Dibujar los enemigos en el canvas*/
     /*Precaución: al dibujar los enemigos tener en cuenta que el 
      * canvas se rota horizontalmente para compensar el efecto espejo.
      * espejo(derecha es izquierda) al rotar (derecha coincide con la derecha)*/
     this.dibujar = function () {
-        var imgEnemigo = new Image();
         /*Obtenemos el contexto 
         para dibujar dentro del canvas*/
         this.ctx = this.canvas.getContext('2d');
-        imgEnemigo.src = 'media/' + this.tipo + '.png';
+        this.imgEnemigo.src = 'media/' + this.tipo + '.png';
         /*Se especifica la posición(x,y), ancho y alto*/
-        this.ctx.drawImage(imgEnemigo, this.x, this.y, this.ancho, this.alto);
+        this.ctx.drawImage(this.imgEnemigo, this.x, this.y, this.ancho, this.alto);
     };
     /*Instrucciones para mover a los enemigos*/
     this.mover = function () {
-        //this.ctx.clearRect(this.x, this.y, this.ancho, this.alto);
         this.y-=2;
         this.dibujar();
     };
@@ -163,7 +162,7 @@ function enemigo(x, y, ancho, alto, canvas, tipo) {
     o desaparecen del área visible del juego (y<0)*/
     this.destruir = function () {
         //Borra el espacio dibujado por el enemigo en la pantalla
-        //this.ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+        this.imgEnemigo=null;
     };
 }
 
